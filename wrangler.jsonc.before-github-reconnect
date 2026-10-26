@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "notpanel-miniapp",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-12",
+  "observability": { "enabled": true },
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/bot", "/hooks/*", "/setup/*", "/media/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "notpanel",
+      "database_id": "37e05b1f-b763-4ebd-aee6-2a1c01ff1dae",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Every minute: order status backup check + the next step of a price sync when one is running/due.
+  // At minute :07 of each hour it also runs cleanup (old webhook events, stale pending payments).
+  "triggers": { "crons": ["* * * * *"] },
+  "vars": {
+    // Optional: comma-separated Telegram user IDs that are always admins. More admins can be claimed or added in the app.
+    "OWNER_IDS": "",
+    // Local development only (set in .dev.vars). Must stay empty in production.
+    "DEV_FAKE_USER_ID": ""
+  }
+}

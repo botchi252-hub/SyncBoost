@@ -1,0 +1,50 @@
+{
+  "name": "syncboost",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite build && vite preview",
+    "deploy": "vite build && wrangler d1 migrations apply DB --remote && wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:migrate:local": "wrangler d1 migrations apply notpanel --local",
+    "db:migrate:remote": "wrangler d1 migrations apply syncboost-db --remote",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings worker/env.d.ts"
+  },
+  "cloudflare": {
+    "bindings": {
+      "BOT_TOKEN": {
+        "description": "Your Telegram bot token. Create a bot with [@BotFather](https://t.me/BotFather) (send /newbot) and paste the token it gives you, like 123456:ABC-DEF..."
+      },
+      "NOTPANEL_API_KEY": {
+        "description": "Your NotPanel API key (starts with np_live_). Create it on the [NotPanel API page](https://notpanel.com/developers). This app only works with NotPanel."
+      },
+      "OWNER_IDS": {
+        "description": "Optional. Comma-separated Telegram user IDs that are always admins (get yours from [@userinfobot](https://t.me/userinfobot)). Leave empty to claim admin from the setup page instead."
+      }
+    }
+  },
+  "dependencies": {
+    "hono": "^4.13.13",
+    "preact": "^11.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@cloudflare/vite-plugin": "^1.64.0",
+    "@cloudflare/workers-types": "^5.20261014.1",
+    "@preact/preset-vite": "^2.10.6",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4",
+    "wrangler": "^4.151.0"
+  },
+  "allowScripts": {
+    "workerd@1.20261012.1": true,
+    "esbuild@0.28.2": true
+  }
+}

@@ -1,0 +1,6 @@
+# Local development template only. Never put real credentials in this file or commit them.
+BOT_TOKEN=replace_with_your_bot_token
+NOTPANEL_API_KEY=np_live_9aa8b6c275fa6f7f7c4ffbb8aa51a7ae
+# Optional local-only browser testing defaults. Do not copy these into production secrets.
+DEV_FAKE_USER_ID=1
+OWNER_IDS=8950718710
